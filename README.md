@@ -1,1 +1,0 @@
-# hirodeveloper.github.io
