@@ -1517,18 +1517,6 @@
 <section class="container container--med padd-xs">
     <hr>
   <div class="row-mobile padd-m">
-    <div class="col med">NA - Virginia: <span class="ping" id="virginia_ping"></span></div>
-    <code>va1.holy.gg</code>
-  </div>
-  <div class="row-mobile padd-m">
-    <div class="col med">NA - Oregon: <span class="ping" id="oregon_ping"></span></div>
-    <code>or1.holy.gg</code>
-  </div>
-    <hr>
-  <div class="row-mobile padd-m">
-    <div class="col med">EU - Falkenstein: <span class="ping" id="falkenstein_ping"></span></div>
-    <code>de2.holy.gg</code>
-  </div>
   <hr>
   <div class="row-mobile padd-m">
     <div class="col med">Node Jujuy: <span class="ping" id="santiago_ping"></span></div>
@@ -1574,10 +1562,6 @@
       element.innerHTML = "Error."
     };
   }
-
-  pingWebsocket("wss://ping-us-1.holy.gg/ping", document.querySelector("#virginia_ping"));
-  pingWebsocket("wss://ping-us-2.holy.gg/ping", document.querySelector("#oregon_ping"));
-  pingWebsocket("wss://ping-eu-1.holy.gg/ping", document.querySelector("#falkenstein_ping"));
   pingWebsocket("wss://ping.black-ice.net:36273", document.querySelector("#santiago_ping"));
   
 </script>
