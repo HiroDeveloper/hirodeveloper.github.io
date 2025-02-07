@@ -387,16 +387,41 @@ body {
         font-size: 0.9rem;
     }
 }
-        /* Estilos agregados para el contenedor SWF */
+        /* Estilos optimizados para Puffin iOS */
         .swf-responsive-container {
-            max-width: 100%;
+            width: 100%;
+            height: 80vh;
             overflow: auto;
-            position: relative;
-            margin: 20px auto;
+            -webkit-overflow-scrolling: touch;
             background: #000;
-            border: 2px solid #333;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .puffin-fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 12px;
+            border-radius: 50%;
+            z-index: 10000;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        embed {
+            width: 1280px;
+            height: 720px;
+        }
+
+        @media (max-width: 768px) {
+            .swf-responsive-container {
+                height: 65vh;
+            }
+            
+            embed {
+                transform: scale(0.8);
+                transform-origin: 0 0;
+            }
         }
 
         .fullscreen-btn {
@@ -436,17 +461,6 @@ body {
                 min-height: 400px;
             }
         }
-
-        @media (max-width: 768px) {
-            .swf-responsive-container {
-                height: 70vh;
-            }
-            
-            embed {
-                transform: scale(0.8);
-                transform-origin: 0 0;
-            }
-        }
         .main-content {
 flex: 1;
 display: flex;
@@ -479,32 +493,20 @@ padding: 20px;
 
     <main class="main-content">
         <div class="swf-responsive-container">
-            <button class="fullscreen-btn" onclick="toggleFullscreen()">
+            <button class="puffin-fullscreen-btn" onclick="puffinFullscreen()">
                 <i class="fas fa-expand"></i>
             </button>
-            <table class="swf-container">
-                <tr>
-                    <td>
-                        <embed src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
-                               width="1280" 
-                               height="720" 
-                               type="application/x-shockwave-flash" 
-                               class="swf-embed"
-                               quality="high" 
-                               bgcolor="#ffffff" 
-                               play="true" 
-                               loop="true" 
-                               wmode="window" 
-                               scale="showall" 
-                               menu="true" 
-                               devicefont="false" 
-                               salign="" 
-                               allowscriptaccess="sameDomain">
-                    </td>
-                </tr>
-            </table>
+            <embed 
+                src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
+                width="1280" 
+                height="720" 
+                type="application/x-shockwave-flash"
+                allowFullScreen="true"
+                quality="high"
+                play="true"
+                wmode="direct"
+                scale="exactfit">
         </div>
-    </main>
 
     <div class="gradient-borderx"></div>
 
@@ -595,6 +597,32 @@ padding: 20px;
                 mobileBtn.querySelector('i').classList.remove('fa-times');
             }
         });
+    </script>
+        <script>
+        // Función específica para Puffin iOS
+        function puffinFullscreen() {
+            try {
+                // Método alternativo para Puffin
+                const swf = document.querySelector('embed');
+                
+                // 1. Enfocar el elemento SWF
+                swf.focus();
+                
+                // 2. Simular doble clic (método que usa Puffin para pantalla completa)
+                const event = new MouseEvent('dblclick', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                swf.dispatchEvent(event);
+                
+                // 3. Alternar clase CSS como respaldo
+                document.querySelector('.swf-responsive-container').classList.toggle('puffin-fullscreen-mode');
+                
+            } catch (error) {
+                alert('Usa el gesto de doble toque en el juego para pantalla completa');
+            }
+        }
     </script>
 </body>
 </html>
