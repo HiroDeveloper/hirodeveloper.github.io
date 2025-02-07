@@ -471,21 +471,20 @@ padding: 20px;
 
     <main class="main-content">
     <div id="swf-container">
-        <embed id="swf-content" 
-               src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
-               type="application/x-shockwave-flash"
-               quality="high"
-               bgcolor="#ffffff"
-               play="true"
-               loop="true"
-               wmode="window"
-               scale="showall"
-               menu="true"
-               devicefont="false"
-               allowscriptaccess="sameDomain"
-               wmode="transparent"
-            >
-    </div>
+    <embed id="swf-content" 
+           data-src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
+           type="application/x-shockwave-flash"
+           quality="high"
+           bgcolor="#ffffff"
+           play="true"
+           loop="true"
+           wmode="window"
+           scale="showall"
+           menu="true"
+           devicefont="false"
+           allowscriptaccess="sameDomain"
+           wmode="transparent">
+</div>
 </main>
 
     <div class="gradient-borderx"> </div>
@@ -530,22 +529,24 @@ padding: 20px;
     </script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Función para detectar si el usuario está en móvil
+    // Función para detectar dispositivos móviles
     function isMobile() {
         return window.innerWidth <= 768;
     }
 
     if (isMobile()) {
-        // Seleccionamos el contenedor que contiene el embed
+        // Seleccionamos el contenedor y el embed
         const container = document.getElementById('swf-container');
-        // Ocultamos el embed inicialmente en móviles
+        const embed = document.getElementById('swf-content');
+        
+        // Ocultamos el contenedor (aunque también podrías ocultar solo el embed)
         container.style.display = 'none';
         
         // Creamos el botón PLAY
         const playButton = document.createElement('button');
         playButton.id = 'mobile-play-button';
         playButton.textContent = 'PLAY';
-        // Estilos básicos para centrar el botón y que se vea destacado
+        // Estilos básicos para el botón
         playButton.style.position = 'fixed';
         playButton.style.top = '50%';
         playButton.style.left = '50%';
@@ -554,12 +555,11 @@ document.addEventListener('DOMContentLoaded', function() {
         playButton.style.padding = '10px 20px';
         playButton.style.zIndex = '1001';
         playButton.style.cursor = 'pointer';
-        // Puedes agregar más estilos o una clase CSS si lo prefieres
         
-        // Añadimos el botón al body
+        // Agregamos el botón al body
         document.body.appendChild(playButton);
 
-        // Función para solicitar pantalla completa de forma compatible
+        // Función para solicitar pantalla completa (compatible con varios navegadores)
         function requestFullscreen(element) {
             const methods = [
                 'requestFullscreen',
@@ -567,7 +567,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'webkitRequestFullscreen',
                 'msRequestFullscreen'
             ];
-            
             for (const method of methods) {
                 if (element[method]) {
                     element[method]();
@@ -575,19 +574,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
-        
+
         // Al hacer clic en el botón PLAY...
         playButton.addEventListener('click', function() {
-            // Ocultamos el botón
-            playButton.style.display = 'none';
-            // Mostramos el contenedor del embed
+            // Asignamos el src usando el valor de data-src
+            embed.setAttribute('src', embed.getAttribute('data-src'));
+
+            // Mostramos el contenedor del embed y ocultamos el botón
             container.style.display = 'block';
-            // Solicitamos que el contenedor pase a pantalla completa
+            playButton.style.display = 'none';
+
+            // Solicitamos que el contenedor se abra en pantalla completa
             requestFullscreen(container);
         });
     }
 });
 </script>
+
 
 </body>
 </html>
