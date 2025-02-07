@@ -470,21 +470,8 @@ padding: 20px;
     <div class="gradient-borderx"></div>
 
     <main class="main-content">
-    <div id="swf-container">
-    <embed id="swf-content" 
-           data-src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
-           type="application/x-shockwave-flash"
-           quality="high"
-           bgcolor="#ffffff"
-           play="true"
-           loop="true"
-           wmode="window"
-           scale="showall"
-           menu="true"
-           devicefont="false"
-           allowscriptaccess="sameDomain"
-           wmode="transparent">
-</div>
+        <!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual -->
+    <div id="swf-container" style="display: none;"></div>
 </main>
 
     <div class="gradient-borderx"> </div>
@@ -519,34 +506,18 @@ padding: 20px;
     </div>
 
     <script>
-        // Script para el menú móvil
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const navMenu = document.querySelector('.nav-menu');
-
-        mobileBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    </script>
-    <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Función para detectar dispositivos móviles
+    // Función para detectar si se trata de un dispositivo móvil
     function isMobile() {
         return window.innerWidth <= 768;
     }
 
     if (isMobile()) {
-        // Seleccionamos el contenedor y el embed
-        const container = document.getElementById('swf-container');
-        const embed = document.getElementById('swf-content');
-        
-        // Ocultamos el contenedor (aunque también podrías ocultar solo el embed)
-        container.style.display = 'none';
-        
-        // Creamos el botón PLAY
+        // Crear y mostrar el botón PLAY
         const playButton = document.createElement('button');
         playButton.id = 'mobile-play-button';
         playButton.textContent = 'PLAY';
-        // Estilos básicos para el botón
+        // Estilos básicos para centrar el botón
         playButton.style.position = 'fixed';
         playButton.style.top = '50%';
         playButton.style.left = '50%';
@@ -556,40 +527,60 @@ document.addEventListener('DOMContentLoaded', function() {
         playButton.style.zIndex = '1001';
         playButton.style.cursor = 'pointer';
         
-        // Agregamos el botón al body
         document.body.appendChild(playButton);
-
+        
         // Función para solicitar pantalla completa (compatible con varios navegadores)
         function requestFullscreen(element) {
-            const methods = [
-                'requestFullscreen',
-                'mozRequestFullScreen',
-                'webkitRequestFullscreen',
-                'msRequestFullscreen'
-            ];
-            for (const method of methods) {
-                if (element[method]) {
-                    element[method]();
-                    break;
-                }
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
             }
         }
-
+        
         // Al hacer clic en el botón PLAY...
         playButton.addEventListener('click', function() {
-            // Asignamos el src usando el valor de data-src
-            embed.setAttribute('src', embed.getAttribute('data-src'));
-
-            // Mostramos el contenedor del embed y ocultamos el botón
-            container.style.display = 'block';
+            // Ocultamos el botón
             playButton.style.display = 'none';
-
-            // Solicitamos que el contenedor se abra en pantalla completa
+            
+            // Seleccionamos el contenedor donde se insertará el embed
+            const container = document.getElementById('swf-container');
+            // Mostramos el contenedor
+            container.style.display = 'block';
+            
+            // Creamos el elemento embed dinámicamente
+            const embed = document.createElement('embed');
+            embed.setAttribute('src', 'https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020');
+            embed.setAttribute('type', 'application/x-shockwave-flash');
+            embed.setAttribute('quality', 'high');
+            embed.setAttribute('bgcolor', '#ffffff');
+            embed.setAttribute('play', 'true');
+            embed.setAttribute('loop', 'true');
+            embed.setAttribute('wmode', 'window');
+            embed.setAttribute('scale', 'showall');
+            embed.setAttribute('menu', 'true');
+            embed.setAttribute('devicefont', 'false');
+            embed.setAttribute('allowscriptaccess', 'sameDomain');
+            embed.setAttribute('wmode', 'transparent');
+            
+            // Opcional: Puedes asignar un ancho y alto si lo requieres
+            embed.style.width = "100%";
+            embed.style.height = "100%";
+            
+            // Insertamos el embed en el contenedor
+            container.appendChild(embed);
+            
+            // Solicitamos pantalla completa para el contenedor
             requestFullscreen(container);
         });
     }
 });
 </script>
+
 
 
 </body>
