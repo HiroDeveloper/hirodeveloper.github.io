@@ -1,51 +1,458 @@
+<?php ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ninja_specter</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #ffffff;
-            overflow: hidden;
-            min-width: 1280px;
-            min-height: 720px;
-        }
-        
-        #swf-container {
-            position: fixed;
-            width: 1280px;
-            height: 720px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: #ffffff;
-            overflow: hidden;
-        }
-        
-        #swf-content {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .flash-warning {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffdddd;
-            padding: 15px;
-            border: 2px solid red;
-            display: none;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Specter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="css/wbt.css" rel="stylesheet">
 </head>
-<body>
-    <div class="flash-warning" id="flash-warning">
-        ¡Se requiere Adobe Flash Player para ver este contenido!
-    </div>
+<style>
+    /* --- Nuevo Header Mejorado --- */
+.main-header {
+    background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0.2rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1000;
+}
 
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    max-width: 100%;
+    height: 100%;
+    max-height: 90px;
+    margin: 0;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+.social-buttons a {
+text-decoration: none;
+}
+:root {
+--primary-color: #FF3D00;
+--secondary-color: #FF6D00;
+--text-color: #FFFFFF;
+--stroke-color: rgba(0, 0, 0, 0.15);
+--transition-duration: 0.6s;
+--easing-function: cubic-bezier(0.4, 0, 0.2, 1);
+--blur-intensity: 4px;
+}
+
+.nav-item {
+/* Tipografía mejorada */
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+font-weight: 650;
+font-size: 1rem;
+letter-spacing: 0.03em;
+text-transform: uppercase;
+
+/* Color y decoración */
+color: var(--text-color);
+text-decoration: none;
+-webkit-text-stroke: 0.45px var(--stroke-color);
+text-stroke: 0.45px var(--stroke-color);
+
+/* Layout y espaciado */
+position: relative;
+display: inline-flex;
+padding: 0.85rem 1.5rem;
+margin: 0 0.75rem;
+overflow: hidden;
+transition: all var(--transition-duration) var(--easing-function);
+isolation: isolate;
+
+/* Efectos iniciales */
+transform: translateZ(0);
+filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Fondo animado */
+.nav-item::before {
+content: '';
+position: absolute;
+inset: 0;
+opacity: 0;
+transform: scaleX(0);
+transform-origin: right;
+transition: transform var(--transition-duration) var(--easing-function),
+        opacity 0.3s ease;
+}
+
+/* Subrayado animado */
+.nav-item::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 2px;
+background: currentColor;
+transform: scaleX(0);
+transform-origin: left;
+transition: transform var(--transition-duration) var(--easing-function);
+}
+
+/* Efecto hover principal */
+.nav-item:hover {
+color: #FFF5F2;
+letter-spacing: 0.045em;
+transform: translateY(-1px) scale(1.05);
+filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.nav-item:hover::before {
+opacity: 0.15;
+transform: scaleX(1);
+transform-origin: left;
+}
+
+.nav-item:hover::after {
+transform: scaleX(1);
+}
+
+/* Efecto de onda al hacer hover */
+.nav-item:hover .hover-wave {
+animation: waveMove 1.4s var(--easing-function) forwards;
+}
+
+@keyframes waveMove {
+0% {
+transform: translateX(-100%) skewX(45deg);
+}
+100% {
+transform: translateX(200%) skewX(45deg);
+}
+}
+
+/* Efecto active/press */
+.nav-item:active {
+transform: translateY(1px) scale(0.98);
+transition-duration: 0.2s;
+}
+
+/* Estado activo/focus mejorado */
+.nav-item.active,
+.nav-item:focus-visible {
+outline: none;
+color: var(--primary-color);
+-webkit-text-stroke: 0.5px var(--primary-color);
+text-stroke: 0.5px var(--primary-color);
+}
+
+.nav-item.active::after,
+.nav-item:focus-visible::after {
+transform: scaleX(1);
+background: var(--secondary-color);
+}
+
+/* Efecto de partículas (opcional - agregar HTML adicional) */
+.nav-item .particles {
+position: absolute;
+width: 8px;
+height: 8px;
+background: rgba(255, 255, 255, 0.4);
+border-radius: 50%;
+pointer-events: none;
+opacity: 0;
+}
+
+.nav-item:hover .particles {
+animation: particlesPop 0.6s ease-out forwards;
+}
+
+@keyframes particlesPop {
+0% {
+opacity: 0;
+transform: scale(0);
+}
+50% {
+opacity: 1;
+transform: scale(1);
+}
+100% {
+opacity: 0;
+transform: translateY(-20px) scale(0.5);
+}
+}
+
+/* Adaptación para reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+.nav-item {
+transition: none !important;
+transform: none !important;
+}
+
+.nav-item::before,
+.nav-item::after {
+transition: none !important;
+}
+}
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        flex-direction: column;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: #000;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
+/* Reset y estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.gradient-borderx {
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(
+        to bottom,
+        #4E3326 0%,
+        #4E3326 33.33%, 
+        #985736 33.33%,
+        #985736 66.66%, 
+        #4E3326 66.66%,
+        #4E3326 100%
+    );
+    border-bottom: 0.5px solid black;
+}
+.footer {
+    width: 100%;
+    height: 70px;
+    background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-text {
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2rem;
+    text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+       1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: 
+        radial-gradient(circle at 50% 120%, 
+            #7E1A01 0%, 
+            #7E1A01 45%, 
+            transparent 46%),
+        linear-gradient(145deg, 
+            #A92201 40%, 
+            #C52701 70%, 
+            #A92201 100%);
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        inset 0 -8px 12px #7E1A01AA,
+        0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-btn i {
+    color: #EDE4C5;
+    font-size: 1.5rem;
+}
+
+.social-btn:hover {
+    transform: scale(1.05);
+    border: 2px solid #FFD700;
+    box-shadow: 
+        inset 0 -8px 15px #7E1A01CC,
+        0 3px 6px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+    .footer {
+        height: 90px;
+        padding: 10px 15px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .footer-text {
+        font-size: 1rem;
+        order: 2;
+    }
+    
+    .social-buttons {
+        order: 1;
+    }
+
+    .download-section {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-buttons {
+        gap: 8px;
+    }
+    
+    .social-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .social-btn i {
+        font-size: 1.2rem;
+    }
+
+    .download-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* main-content things */
+/* main-content things */
+/* main-content things */
+/* main-content things */
+.main-content {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+background: url(https://technotal.com/ninja_specter/data/img/bg.png) center/cover no-repeat;
+overflow: hidden;
+padding: 20px;
+}
+#swf-container {
+    position: fixed;
+    width: 1280px;
+    height: 720px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    overflow: hidden;
+}
+
+#swf-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.flash-warning {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffdddd;
+    padding: 15px;
+    border: 2px solid red;
+    display: none;
+}
+</style>
+<body class="site-container">
+    
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://technotal.com/ninja_specter/data/img/logo.png" alt="Ninja Specter Logo" class="logo">
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.php" class="nav-item">Home</a>
+                <a href="terms.php" class="nav-item">Terms</a>
+                <a href="clan_ranking.php" class="nav-item">Clan Ranking</a>
+                <a href="pvp_ranking.php" class="nav-item">PVP Ranking</a>
+            </nav>
+            
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- El resto del contenido se mantiene igual -->
+    <div class="gradient-borderx"></div>
+
+    <main class="main-content">
     <div id="swf-container">
         <embed id="swf-content" 
                src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
@@ -60,13 +467,67 @@
                devicefont="false"
                allowscriptaccess="sameDomain">
     </div>
-    <a>Elysium Test</a>
+</main>
+
+    <div class="gradient-borderx"> </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <span class="footer-text">© TechnoTal, 2021-2025 All Rights Reserved</span>
+            
+            <div class="social-buttons">
+                <a href="https://www.facebook.com/NinjaSpecter">
+                <button class="social-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+            </a>
+                <a href="https://www.youtube.com/@TechnoTal">
+                <button class="social-btn">
+                    <i class="fab fa-youtube"></i>
+                </button>
+                </a>
+                <a href="https://discord.gg/ninjaspecter">
+                <button class="social-btn">
+                    <i class="fab fa-discord"></i>
+                </button>
+                </a>
+                <a href="https://www.instagram.com/NinjaSpecterOfficial/">
+                <button class="social-btn">
+                    <i class="fab fa-instagram"></i>
+                </button>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Detectar si Flash está habilitado
-        if(!navigator.mimeTypes['application/x-shockwave-flash']){
-            document.getElementById('flash-warning').style.display = 'block';
+        // Script para el menú móvil
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+    <script>
+        document.querySelector('.swf-wrapper').addEventListener('click', function() {
+    if (window.innerWidth <= 768) { // Solo para móviles
+        this.classList.toggle('fullscreen');
+        
+        // Opcional: Desplazamiento al hacer fullscreen
+        if (this.classList.contains('fullscreen')) {
+            window.scrollTo(0, 0);
         }
+    }
+});
+
+// Opcional: Salir de pantalla completa al hacer scroll
+window.addEventListener('scroll', function() {
+    const fullscreenElement = document.querySelector('.swf-wrapper.fullscreen');
+    if (fullscreenElement) {
+        fullscreenElement.classList.remove('fullscreen');
+    }
+});
     </script>
 </body>
 </html>
