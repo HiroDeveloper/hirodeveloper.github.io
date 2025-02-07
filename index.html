@@ -595,5 +595,66 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Función para detectar si el usuario está en móvil
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    if (isMobile()) {
+        // Seleccionamos el contenedor que contiene el embed
+        const container = document.getElementById('swf-container');
+        // Ocultamos el embed inicialmente en móviles
+        container.style.display = 'none';
+        
+        // Creamos el botón PLAY
+        const playButton = document.createElement('button');
+        playButton.id = 'mobile-play-button';
+        playButton.textContent = 'PLAY';
+        // Estilos básicos para centrar el botón y que se vea destacado
+        playButton.style.position = 'fixed';
+        playButton.style.top = '50%';
+        playButton.style.left = '50%';
+        playButton.style.transform = 'translate(-50%, -50%)';
+        playButton.style.fontSize = '2rem';
+        playButton.style.padding = '10px 20px';
+        playButton.style.zIndex = '1001';
+        playButton.style.cursor = 'pointer';
+        // Puedes agregar más estilos o una clase CSS si lo prefieres
+        
+        // Añadimos el botón al body
+        document.body.appendChild(playButton);
+
+        // Función para solicitar pantalla completa de forma compatible
+        function requestFullscreen(element) {
+            const methods = [
+                'requestFullscreen',
+                'mozRequestFullScreen',
+                'webkitRequestFullscreen',
+                'msRequestFullscreen'
+            ];
+            
+            for (const method of methods) {
+                if (element[method]) {
+                    element[method]();
+                    break;
+                }
+            }
+        }
+        
+        // Al hacer clic en el botón PLAY...
+        playButton.addEventListener('click', function() {
+            // Ocultamos el botón
+            playButton.style.display = 'none';
+            // Mostramos el contenedor del embed
+            container.style.display = 'block';
+            // Solicitamos que el contenedor pase a pantalla completa
+            requestFullscreen(container);
+        });
+    }
+});
+</script>
+
 </body>
 </html>
