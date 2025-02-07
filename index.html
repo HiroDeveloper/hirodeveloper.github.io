@@ -402,50 +402,24 @@ background: url(https://technotal.com/ninja_specter/data/img/bg.png) center/cove
 overflow: hidden;
 padding: 20px;
 }
-#swf-container {
-    position: fixed;
-    width: 1280px;
-    height: 720px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
-}
-
-#swf-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.flash-warning {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ffdddd;
-    padding: 15px;
-    border: 2px solid red;
-    display: none;
-}
-#mobile-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1000;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 20px;
-}
+/* Estilos básicos para el contenedor y el botón */
+    #swf-container {
+      width: 100%;
+      max-width: 1280px;
+      height: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+    #mobile-play-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      padding: 10px 20px;
+      z-index: 1001;
+      cursor: pointer;
+    }
 </style>
 <body class="site-container">
     
@@ -469,10 +443,102 @@ padding: 20px;
     <!-- El resto del contenido se mantiene igual -->
     <div class="gradient-borderx"></div>
 
-    <main class="main-content">
-        <!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual --><!-- El resto del contenido se mantiene igual -->
-    <div id="swf-container" style="display: none;"></div>
-</main>
+      <!-- Contenedor para el embed -->
+  <div id="swf-container">
+    <!-- Este embed se mostrará en PC (o pantallas grandes) -->
+    <embed id="swf-content" 
+           src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
+           type="application/x-shockwave-flash"
+           quality="high"
+           bgcolor="#ffffff"
+           play="true"
+           loop="true"
+           wmode="transparent"
+           scale="showall"
+           menu="true"
+           devicefont="false"
+           allowscriptaccess="sameDomain"
+           style="width:100%; height:100%;">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Función para detectar si se trata de un dispositivo "móvil" (o pantalla pequeña)
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+
+      var container = document.getElementById('swf-container');
+
+      // Si estamos en móvil, eliminamos el embed y preparamos el botón
+      if (isMobile()) {
+        // Si existe el embed en el HTML, lo removemos para evitar la carga
+        var embed = document.getElementById('swf-content');
+        if (embed) {
+          container.removeChild(embed);
+        }
+        // Ocultamos el contenedor (se mostrará cuando se cree el embed)
+        container.style.display = 'none';
+
+        // Creamos el botón PLAY
+        var playButton = document.createElement('button');
+        playButton.id = 'mobile-play-button';
+        playButton.textContent = 'PLAY';
+        document.body.appendChild(playButton);
+
+        // Función para solicitar pantalla completa (compatible con varios navegadores)
+        function requestFullscreen(element) {
+          if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+          } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+          }
+        }
+
+        // Al hacer clic en el botón PLAY...
+        playButton.addEventListener('click', function() {
+          // Ocultamos el botón
+          playButton.style.display = 'none';
+          // Mostramos el contenedor
+          container.style.display = 'block';
+
+          // Creamos el elemento embed dinámicamente
+          var newEmbed = document.createElement('embed');
+          newEmbed.id = 'swf-content';
+          newEmbed.setAttribute('src', 'https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020');
+          newEmbed.setAttribute('type', 'application/x-shockwave-flash');
+          newEmbed.setAttribute('quality', 'high');
+          newEmbed.setAttribute('bgcolor', '#ffffff');
+          newEmbed.setAttribute('play', 'true');
+          newEmbed.setAttribute('loop', 'true');
+          newEmbed.setAttribute('wmode', 'transparent');
+          newEmbed.setAttribute('scale', 'showall');
+          newEmbed.setAttribute('menu', 'true');
+          newEmbed.setAttribute('devicefont', 'false');
+          newEmbed.setAttribute('allowscriptaccess', 'sameDomain');
+          newEmbed.style.width = '100%';
+          newEmbed.style.height = '100%';
+
+          // Insertamos el embed en el contenedor
+          container.appendChild(newEmbed);
+
+          // Esperamos 500 ms (ajustable) para que el SWF tenga tiempo de cargarse,
+          // luego solicitamos pantalla completa
+          setTimeout(function() {
+            requestFullscreen(container);
+          }, 500);
+        });
+      }
+      // En caso de que no sea móvil, nos aseguramos de que el contenedor esté visible
+      else {
+        container.style.display = 'block';
+      }
+    });
+  </script>
 
     <div class="gradient-borderx"> </div>
 
@@ -505,82 +571,15 @@ padding: 20px;
         </div>
     </div>
 
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Función para detectar si se trata de un dispositivo móvil
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
+<script>
+        // Script para el menú móvil
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
 
-    if (isMobile()) {
-        // Crear y mostrar el botón PLAY
-        const playButton = document.createElement('button');
-        playButton.id = 'mobile-play-button';
-        playButton.textContent = 'PLAY';
-        // Estilos básicos para centrar el botón
-        playButton.style.position = 'fixed';
-        playButton.style.top = '50%';
-        playButton.style.left = '50%';
-        playButton.style.transform = 'translate(-50%, -50%)';
-        playButton.style.fontSize = '2rem';
-        playButton.style.padding = '10px 20px';
-        playButton.style.zIndex = '1001';
-        playButton.style.cursor = 'pointer';
-        
-        document.body.appendChild(playButton);
-        
-        // Función para solicitar pantalla completa (compatible con varios navegadores)
-        function requestFullscreen(element) {
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-        }
-        
-        // Al hacer clic en el botón PLAY...
-        playButton.addEventListener('click', function() {
-            // Ocultamos el botón
-            playButton.style.display = 'none';
-            
-            // Seleccionamos el contenedor donde se insertará el embed
-            const container = document.getElementById('swf-container');
-            // Mostramos el contenedor
-            container.style.display = 'block';
-            
-            // Creamos el elemento embed dinámicamente
-            const embed = document.createElement('embed');
-            embed.setAttribute('src', 'https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020');
-            embed.setAttribute('type', 'application/x-shockwave-flash');
-            embed.setAttribute('quality', 'high');
-            embed.setAttribute('bgcolor', '#ffffff');
-            embed.setAttribute('play', 'true');
-            embed.setAttribute('loop', 'true');
-            embed.setAttribute('wmode', 'window');
-            embed.setAttribute('scale', 'showall');
-            embed.setAttribute('menu', 'true');
-            embed.setAttribute('devicefont', 'false');
-            embed.setAttribute('allowscriptaccess', 'sameDomain');
-            embed.setAttribute('wmode', 'transparent');
-            
-            // Opcional: Puedes asignar un ancho y alto si lo requieres
-            embed.style.width = "100%";
-            embed.style.height = "100%";
-            
-            // Insertamos el embed en el contenedor
-            container.appendChild(embed);
-            
-            // Solicitamos pantalla completa para el contenedor
-            requestFullscreen(container);
+        mobileBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
         });
-    }
-});
-</script>
-
+    </script>
 
 
 </body>
