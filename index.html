@@ -463,21 +463,21 @@ padding: 20px;
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Función para detectar si se trata de un dispositivo "móvil" (o pantalla pequeña)
+      // Función para detectar si se trata de una pantalla pequeña (móvil)
       function isMobile() {
         return window.innerWidth <= 768;
       }
 
       var container = document.getElementById('swf-container');
 
-      // Si estamos en móvil, eliminamos el embed y preparamos el botón
+      // Si estamos en móvil, eliminamos el embed estático y creamos el botón PLAY
       if (isMobile()) {
-        // Si existe el embed en el HTML, lo removemos para evitar la carga
+        // Removemos el embed para evitar que se cargue de entrada
         var embed = document.getElementById('swf-content');
         if (embed) {
           container.removeChild(embed);
         }
-        // Ocultamos el contenedor (se mostrará cuando se cree el embed)
+        // Ocultamos el contenedor hasta que se cree el embed
         container.style.display = 'none';
 
         // Creamos el botón PLAY
@@ -489,13 +489,15 @@ padding: 20px;
         // Función para solicitar pantalla completa (compatible con varios navegadores)
         function requestFullscreen(element) {
           if (element.requestFullscreen) {
-            element.requestFullscreen();
+            return element.requestFullscreen();
           } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
+            return element.mozRequestFullScreen();
           } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
+            return element.webkitRequestFullscreen();
           } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
+            return element.msRequestFullscreen();
+          } else {
+            return Promise.reject('Fullscreen API no soportada');
           }
         }
 
@@ -526,14 +528,25 @@ padding: 20px;
           // Insertamos el embed en el contenedor
           container.appendChild(newEmbed);
 
-          // Esperamos 500 ms (ajustable) para que el SWF tenga tiempo de cargarse,
-          // luego solicitamos pantalla completa
+          // Esperamos un breve retardo para que el embed tenga tiempo de cargarse
           setTimeout(function() {
-            requestFullscreen(container);
-          }, 500);
+            // Solicitamos pantalla completa para el contenedor
+            requestFullscreen(container)
+              .then(function() {
+                // Una vez en pantalla completa, intentamos bloquear la orientación en horizontal
+                if (screen.orientation && screen.orientation.lock) {
+                  screen.orientation.lock('landscape').catch(function(error) {
+                    console.log('No se pudo bloquear la orientación:', error);
+                  });
+                }
+              })
+              .catch(function(error) {
+                console.log('Error al solicitar pantalla completa:', error);
+              });
+          }, 500); // Puedes ajustar el retardo si es necesario
         });
       }
-      // En caso de que no sea móvil, nos aseguramos de que el contenedor esté visible
+      // En caso de que no sea móvil, nos aseguramos de que el contenedor se muestre normalmente
       else {
         container.style.display = 'block';
       }
