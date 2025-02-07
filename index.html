@@ -7,452 +7,75 @@
     <title>Ninja Specter</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
-    <link href="css/wbt.css" rel="stylesheet">
+    <link href="css/wb.css" rel="stylesheet">
+    <style>
+        /* Estilos agregados para el contenedor SWF */
+        .swf-responsive-container {
+            max-width: 100%;
+            overflow: auto;
+            position: relative;
+            margin: 20px auto;
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+        }
+
+        .swf-container {
+            width: 1280px;
+            height: 720px;
+        }
+
+        @media (max-width: 1280px) {
+            .swf-responsive-container {
+                width: 95%;
+                margin: 10px auto;
+            }
+            
+            .swf-container {
+                width: 100%;
+                height: auto;
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .swf-responsive-container {
+                height: 70vh;
+            }
+            
+            embed {
+                transform: scale(0.8);
+                transform-origin: 0 0;
+            }
+        }
+    </style>
 </head>
-<style>
-    /* --- Nuevo Header Mejorado --- */
-.main-header {
-    background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 0.2rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    position: relative;
-    z-index: 1000;
-}
-
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo {
-    max-width: 100%;
-    height: 100%;
-    max-height: 90px;
-    margin: 0;
-}
-
-.nav-menu {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-.social-buttons a {
-text-decoration: none;
-}
-:root {
---primary-color: #FF3D00;
---secondary-color: #FF6D00;
---text-color: #FFFFFF;
---stroke-color: rgba(0, 0, 0, 0.15);
---transition-duration: 0.6s;
---easing-function: cubic-bezier(0.4, 0, 0.2, 1);
---blur-intensity: 4px;
-}
-
-.nav-item {
-/* Tipografía mejorada */
-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-font-weight: 650;
-font-size: 1rem;
-letter-spacing: 0.03em;
-text-transform: uppercase;
-
-/* Color y decoración */
-color: var(--text-color);
-text-decoration: none;
--webkit-text-stroke: 0.45px var(--stroke-color);
-text-stroke: 0.45px var(--stroke-color);
-
-/* Layout y espaciado */
-position: relative;
-display: inline-flex;
-padding: 0.85rem 1.5rem;
-margin: 0 0.75rem;
-overflow: hidden;
-transition: all var(--transition-duration) var(--easing-function);
-isolation: isolate;
-
-/* Efectos iniciales */
-transform: translateZ(0);
-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-/* Fondo animado */
-.nav-item::before {
-content: '';
-position: absolute;
-inset: 0;
-opacity: 0;
-transform: scaleX(0);
-transform-origin: right;
-transition: transform var(--transition-duration) var(--easing-function),
-        opacity 0.3s ease;
-}
-
-/* Subrayado animado */
-.nav-item::after {
-content: '';
-position: absolute;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 2px;
-background: currentColor;
-transform: scaleX(0);
-transform-origin: left;
-transition: transform var(--transition-duration) var(--easing-function);
-}
-
-/* Efecto hover principal */
-.nav-item:hover {
-color: #FFF5F2;
-letter-spacing: 0.045em;
-transform: translateY(-1px) scale(1.05);
-filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-}
-
-.nav-item:hover::before {
-opacity: 0.15;
-transform: scaleX(1);
-transform-origin: left;
-}
-
-.nav-item:hover::after {
-transform: scaleX(1);
-}
-
-/* Efecto de onda al hacer hover */
-.nav-item:hover .hover-wave {
-animation: waveMove 1.4s var(--easing-function) forwards;
-}
-
-@keyframes waveMove {
-0% {
-transform: translateX(-100%) skewX(45deg);
-}
-100% {
-transform: translateX(200%) skewX(45deg);
-}
-}
-
-/* Efecto active/press */
-.nav-item:active {
-transform: translateY(1px) scale(0.98);
-transition-duration: 0.2s;
-}
-
-/* Estado activo/focus mejorado */
-.nav-item.active,
-.nav-item:focus-visible {
-outline: none;
-color: var(--primary-color);
--webkit-text-stroke: 0.5px var(--primary-color);
-text-stroke: 0.5px var(--primary-color);
-}
-
-.nav-item.active::after,
-.nav-item:focus-visible::after {
-transform: scaleX(1);
-background: var(--secondary-color);
-}
-
-/* Efecto de partículas (opcional - agregar HTML adicional) */
-.nav-item .particles {
-position: absolute;
-width: 8px;
-height: 8px;
-background: rgba(255, 255, 255, 0.4);
-border-radius: 50%;
-pointer-events: none;
-opacity: 0;
-}
-
-.nav-item:hover .particles {
-animation: particlesPop 0.6s ease-out forwards;
-}
-
-@keyframes particlesPop {
-0% {
-opacity: 0;
-transform: scale(0);
-}
-50% {
-opacity: 1;
-transform: scale(1);
-}
-100% {
-opacity: 0;
-transform: translateY(-20px) scale(0.5);
-}
-}
-
-/* Adaptación para reducir movimiento */
-@media (prefers-reduced-motion: reduce) {
-.nav-item {
-transition: none !important;
-transform: none !important;
-}
-
-.nav-item::before,
-.nav-item::after {
-transition: none !important;
-}
-}
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        flex-direction: column;
-        padding: 1rem;
-        text-align: center;
-        box-shadow: #000;
-    }
-
-    .nav-menu.active {
-        display: flex;
-    }
-
-    .mobile-menu-btn {
-        display: block;
-    }
-}
-
-/* Reset y estilos generales */
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.gradient-borderx {
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(
-        to bottom,
-        #4E3326 0%,
-        #4E3326 33.33%, 
-        #985736 33.33%,
-        #985736 66.66%, 
-        #4E3326 66.66%,
-        #4E3326 100%
-    );
-    border-bottom: 0.5px solid black;
-}
-.footer {
-    width: 100%;
-    height: 70px;
-    background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_44-2JEhCWYbi5IhNeWuIu1m8vMS81jg2t.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.footer-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-text {
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
-    font-size: 1.2rem;
-    text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
-       1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
-.social-buttons {
-    display: flex;
-    gap: 15px;
-}
-
-.social-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: 
-        radial-gradient(circle at 50% 120%, 
-            #7E1A01 0%, 
-            #7E1A01 45%, 
-            transparent 46%),
-        linear-gradient(145deg, 
-            #A92201 40%, 
-            #C52701 70%, 
-            #A92201 100%);
-    border: 2px solid #000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 
-        inset 0 -8px 12px #7E1A01AA,
-        0 2px 4px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.social-btn i {
-    color: #EDE4C5;
-    font-size: 1.5rem;
-}
-
-.social-btn:hover {
-    transform: scale(1.05);
-    border: 2px solid #FFD700;
-    box-shadow: 
-        inset 0 -8px 15px #7E1A01CC,
-        0 3px 6px rgba(0,0,0,0.3);
-}
-
-@media (max-width: 768px) {
-    .footer {
-        height: 90px;
-        padding: 10px 15px;
-    }
-    
-    .footer-content {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .footer-text {
-        font-size: 1rem;
-        order: 2;
-    }
-    
-    .social-buttons {
-        order: 1;
-    }
-
-    .download-section {
-        flex-direction: column;
-        align-items: flex-end;
-    }
-}
-
-@media (max-width: 480px) {
-    .social-buttons {
-        gap: 8px;
-    }
-    
-    .social-btn {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .social-btn i {
-        font-size: 1.2rem;
-    }
-
-    .download-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-/* main-content things */
-/* main-content things */
-/* main-content things */
-/* main-content things */
-.main-content {
-flex: 1;
-display: flex;
-justify-content: center;
-align-items: center;
-background: url(https://technotal.com/ninja_specter/data/img/bg.png) center/cover no-repeat;
-overflow: hidden;
-padding: 20px;
-}
-#swf-container {
-    position: fixed;
-    width: 1280px;
-    height: 720px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
-}
-
-#swf-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.flash-warning {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ffdddd;
-    padding: 15px;
-    border: 2px solid red;
-    display: none;
-}
-#mobile-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1000;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 20px;
-}
-</style>
 <body class="site-container">
-    
     <header class="main-header">
         <div class="header-content">
             <div class="logo-container">
-                <img src="https://technotal.com/ninja_specter/data/img/logo.png" alt="Ninja Specter Logo" class="logo">
+                <img src="img/log.png" alt="Ninja Specter Logo" class="logo">
             </div>
             
             <nav class="nav-menu">
@@ -466,131 +89,126 @@ padding: 20px;
         </div>
     </header>
 
-    <!-- El resto del contenido se mantiene igual -->
     <div class="gradient-borderx"></div>
 
     <main class="main-content">
-    <div id="swf-container">
-    <embed id="swf-content" 
-           data-src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
-           type="application/x-shockwave-flash"
-           quality="high"
-           bgcolor="#ffffff"
-           play="true"
-           loop="true"
-           wmode="window"
-           scale="showall"
-           menu="true"
-           devicefont="false"
-           allowscriptaccess="sameDomain"
-           wmode="transparent">
-</div>
-</main>
+        <div class="swf-responsive-container">
+            <button class="fullscreen-btn" onclick="toggleFullscreen()">
+                <i class="fas fa-expand"></i>
+            </button>
+            <table class="swf-container">
+                <tr>
+                    <td>
+                        <embed src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
+                               width="1280" 
+                               height="720" 
+                               type="application/x-shockwave-flash" 
+                               class="swf-embed"
+                               quality="high" 
+                               bgcolor="#ffffff" 
+                               play="true" 
+                               loop="true" 
+                               wmode="window" 
+                               scale="showall" 
+                               menu="true" 
+                               devicefont="false" 
+                               salign="" 
+                               allowscriptaccess="sameDomain">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
 
-    <div class="gradient-borderx"> </div>
+    <div class="gradient-borderx"></div>
 
-    <div class="footer">
+    <footer class="footer">
         <div class="footer-content">
             <span class="footer-text">© TechnoTal, 2021-2025 All Rights Reserved</span>
             
             <div class="social-buttons">
-                <a href="https://www.facebook.com/NinjaSpecter">
-                <button class="social-btn">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
-            </a>
-                <a href="https://www.youtube.com/@TechnoTal">
-                <button class="social-btn">
-                    <i class="fab fa-youtube"></i>
-                </button>
+                <a href="https://www.facebook.com/NinjaSpecter" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
                 </a>
-                <a href="https://discord.gg/ninjaspecter">
-                <button class="social-btn">
-                    <i class="fab fa-discord"></i>
-                </button>
+                <a href="https://www.youtube.com/@TechnoTal" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn">
+                        <i class="fab fa-youtube"></i>
+                    </button>
                 </a>
-                <a href="https://www.instagram.com/NinjaSpecterOfficial/">
-                <button class="social-btn">
-                    <i class="fab fa-instagram"></i>
-                </button>
+                <a href="https://discord.gg/ninjaspecter" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn">
+                        <i class="fab fa-discord"></i>
+                    </button>
+                </a>
+                <a href="https://www.instagram.com/NinjaSpecterOfficial/" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn">
+                        <i class="fab fa-instagram"></i>
+                    </button>
                 </a>
             </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // Script para el menú móvil
+        // Función para pantalla completa
+        function toggleFullscreen() {
+            const container = document.querySelector('.swf-responsive-container');
+            
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Detectar cambios de pantalla completa
+        document.addEventListener('fullscreenchange', adjustFullscreenButton);
+        document.addEventListener('webkitfullscreenchange', adjustFullscreenButton);
+        document.addEventListener('msfullscreenchange', adjustFullscreenButton);
+
+        function adjustFullscreenButton() {
+            const btn = document.querySelector('.fullscreen-btn');
+            if (document.fullscreenElement) {
+                btn.innerHTML = '<i class="fas fa-compress"></i>';
+                btn.style.bottom = '25px';
+                btn.style.right = '25px';
+            } else {
+                btn.innerHTML = '<i class="fas fa-expand"></i>';
+                btn.style.bottom = '15px';
+                btn.style.right = '15px';
+            }
+        }
+
+        // Menú móvil
         const mobileBtn = document.querySelector('.mobile-menu-btn');
         const navMenu = document.querySelector('.nav-menu');
 
         mobileBtn.addEventListener('click', () => {
             navMenu.classList.toggle('active');
+            mobileBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Cerrar menú al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navMenu.classList.remove('active');
+                mobileBtn.querySelector('i').classList.remove('fa-times');
+            }
         });
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Función para detectar dispositivos móviles
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
-
-    if (isMobile()) {
-        // Seleccionamos el contenedor y el embed
-        const container = document.getElementById('swf-container');
-        const embed = document.getElementById('swf-content');
-        
-        // Ocultamos el contenedor (aunque también podrías ocultar solo el embed)
-        container.style.display = 'none';
-        
-        // Creamos el botón PLAY
-        const playButton = document.createElement('button');
-        playButton.id = 'mobile-play-button';
-        playButton.textContent = 'PLAY';
-        // Estilos básicos para el botón
-        playButton.style.position = 'fixed';
-        playButton.style.top = '50%';
-        playButton.style.left = '50%';
-        playButton.style.transform = 'translate(-50%, -50%)';
-        playButton.style.fontSize = '2rem';
-        playButton.style.padding = '10px 20px';
-        playButton.style.zIndex = '1001';
-        playButton.style.cursor = 'pointer';
-        
-        // Agregamos el botón al body
-        document.body.appendChild(playButton);
-
-        // Función para solicitar pantalla completa (compatible con varios navegadores)
-        function requestFullscreen(element) {
-            const methods = [
-                'requestFullscreen',
-                'mozRequestFullScreen',
-                'webkitRequestFullscreen',
-                'msRequestFullscreen'
-            ];
-            for (const method of methods) {
-                if (element[method]) {
-                    element[method]();
-                    break;
-                }
-            }
-        }
-
-        // Al hacer clic en el botón PLAY...
-        playButton.addEventListener('click', function() {
-            // Asignamos el src usando el valor de data-src
-            embed.setAttribute('src', embed.getAttribute('data-src'));
-
-            // Mostramos el contenedor del embed y ocultamos el botón
-            container.style.display = 'block';
-            playButton.style.display = 'none';
-
-            // Solicitamos que el contenedor se abra en pantalla completa
-            requestFullscreen(container);
-        });
-    }
-});
-</script>
-
-
 </body>
 </html>
