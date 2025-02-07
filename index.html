@@ -402,14 +402,22 @@ background: url(https://technotal.com/ninja_specter/data/img/bg.png) center/cove
 overflow: hidden;
 padding: 20px;
 }
-/* Estilos básicos para el contenedor y el botón */
+    /* Estilos para el contenedor normal y en pantalla completa */
     #swf-container {
       width: 100%;
       max-width: 1280px;
       height: 720px;
       margin: 0 auto;
       position: relative;
+      background-color: black; /* Fondo para evitar bordes visibles en caso de que el embed tarde en cargar */
     }
+    /* Cuando el contenedor esté en pantalla completa, forzamos que ocupe todo el viewport */
+    #swf-container:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+    }
+    /* Estilos para el botón PLAY */
     #mobile-play-button {
       position: fixed;
       top: 50%;
@@ -443,9 +451,9 @@ padding: 20px;
     <!-- El resto del contenido se mantiene igual -->
     <div class="gradient-borderx"></div>
 
-      <!-- Contenedor para el embed -->
+  <!-- Contenedor para el embed -->
   <div id="swf-container">
-    <!-- Este embed se mostrará en PC (o pantallas grandes) -->
+    <!-- Este embed se muestra en PC o pantallas grandes -->
     <embed id="swf-content" 
            src="https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020" 
            type="application/x-shockwave-flash"
@@ -454,7 +462,7 @@ padding: 20px;
            play="true"
            loop="true"
            wmode="transparent"
-           scale="showall"
+           scale="showall"  <!-- En PC puedes mantener showall o modificarlo según prefieras -->
            menu="true"
            devicefont="false"
            allowscriptaccess="sameDomain"
@@ -463,21 +471,21 @@ padding: 20px;
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Función para detectar si se trata de una pantalla pequeña (móvil)
+      // Función para detectar si la pantalla es pequeña (móvil)
       function isMobile() {
         return window.innerWidth <= 768;
       }
 
       var container = document.getElementById('swf-container');
 
-      // Si estamos en móvil, eliminamos el embed estático y creamos el botón PLAY
+      // Si estamos en móvil, eliminamos el embed estático y preparamos el botón PLAY
       if (isMobile()) {
         // Removemos el embed para evitar que se cargue de entrada
         var embed = document.getElementById('swf-content');
         if (embed) {
           container.removeChild(embed);
         }
-        // Ocultamos el contenedor hasta que se cree el embed
+        // Ocultamos el contenedor hasta que se cree el embed dinámico
         container.style.display = 'none';
 
         // Creamos el botón PLAY
@@ -486,7 +494,7 @@ padding: 20px;
         playButton.textContent = 'PLAY';
         document.body.appendChild(playButton);
 
-        // Función para solicitar pantalla completa (compatible con varios navegadores)
+        // Función para solicitar pantalla completa de forma compatible
         function requestFullscreen(element) {
           if (element.requestFullscreen) {
             return element.requestFullscreen();
@@ -505,10 +513,13 @@ padding: 20px;
         playButton.addEventListener('click', function() {
           // Ocultamos el botón
           playButton.style.display = 'none';
-          // Mostramos el contenedor
+          // Mostramos el contenedor y lo ajustamos para pantalla completa
           container.style.display = 'block';
+          container.style.width = '100vw';
+          container.style.height = '100vh';
+          container.style.margin = '0';
 
-          // Creamos el elemento embed dinámicamente
+          // Creamos el elemento embed dinámicamente con scale="exactfit" para llenar el contenedor
           var newEmbed = document.createElement('embed');
           newEmbed.id = 'swf-content';
           newEmbed.setAttribute('src', 'https://technotal.com/ninja_specter/data/swf/shinobisaga_web.swf?version=0.020');
@@ -518,7 +529,7 @@ padding: 20px;
           newEmbed.setAttribute('play', 'true');
           newEmbed.setAttribute('loop', 'true');
           newEmbed.setAttribute('wmode', 'transparent');
-          newEmbed.setAttribute('scale', 'showall');
+          newEmbed.setAttribute('scale', 'exactfit');  // Con exactfit se estira para llenar el contenedor
           newEmbed.setAttribute('menu', 'true');
           newEmbed.setAttribute('devicefont', 'false');
           newEmbed.setAttribute('allowscriptaccess', 'sameDomain');
@@ -530,10 +541,9 @@ padding: 20px;
 
           // Esperamos un breve retardo para que el embed tenga tiempo de cargarse
           setTimeout(function() {
-            // Solicitamos pantalla completa para el contenedor
             requestFullscreen(container)
               .then(function() {
-                // Una vez en pantalla completa, intentamos bloquear la orientación en horizontal
+                // Una vez en pantalla completa, intentamos bloquear la orientación a landscape
                 if (screen.orientation && screen.orientation.lock) {
                   screen.orientation.lock('landscape').catch(function(error) {
                     console.log('No se pudo bloquear la orientación:', error);
@@ -543,10 +553,10 @@ padding: 20px;
               .catch(function(error) {
                 console.log('Error al solicitar pantalla completa:', error);
               });
-          }, 500); // Puedes ajustar el retardo si es necesario
+          }, 500);
         });
       }
-      // En caso de que no sea móvil, nos aseguramos de que el contenedor se muestre normalmente
+      // En caso de PC o pantallas grandes, nos aseguramos de que el contenedor se muestre normalmente
       else {
         container.style.display = 'block';
       }
